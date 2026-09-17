@@ -1,0 +1,176 @@
+# 03_network_construction/03_network_qc.R
+
+project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
+source(file.path(project_root, "00_config", "config.R"))
+source(file.path(project_root, "00_config", "packages.R"))
+
+clinical_dir <- file.path(paths$clinical_networks, "clinical_network")
+metabolomics_dir <- file.path(paths$clinical_networks, "metabolomics_network")
+qc_dir <- file.path(paths$clinical_networks, "qc")
+dir.create(qc_dir, recursive = TRUE, showWarnings = FALSE)
+
+required_files <- c(
+  file.path(clinical_dir, "pd_model.rds"),
+  file.path(clinical_dir, "updrs_affinity_mat.rds"),
+  file.path(clinical_dir, "moca_affinity_mat.rds"),
+  file.path(clinical_dir, "ledd_affinity_mat.rds"),
+  file.path(metabolomics_dir, "metab_pd.rds"),
+  file.path(metabolomics_dir, "metab_scaled.rds"),
+  file.path(metabolomics_dir, "metab_dist_snf.rds"),
+  file.path(metabolomics_dir, "metab_affinity_mat.rds")
+)
+
+missing_files <- required_files[!file.exists(required_files)]
+if (length(missing_files) > 0) {
+  stop("Missing required network files: ", paste(missing_files, collapse = "; "))
+}
+
+pd_model <- readRDS(file.path(clinical_dir, "pd_model.rds"))
+updrs_affinity_mat <- readRDS(file.path(clinical_dir, "updrs_affinity_mat.rds"))
+moca_affinity_mat <- readRDS(file.path(clinical_dir, "moca_affinity_mat.rds"))
+ledd_affinity_mat <- readRDS(file.path(clinical_dir, "ledd_affinity_mat.rds"))
+
+metab_pd <- readRDS(file.path(metabolomics_dir, "metab_pd.rds"))
+metab_scaled <- readRDS(file.path(metabolomics_dir, "metab_scaled.rds"))
+metab_dist_snf <- readRDS(file.path(metabolomics_dir, "metab_dist_snf.rds"))
+metab_affinity_mat <- readRDS(file.path(metabolomics_dir, "metab_affinity_mat.rds"))
+
+check_matrix <- function(mat, name, ids = NULL) {
+  mat <- as.matrix(mat)
+  if (nrow(mat) != ncol(mat)) {
+    stop(name, " is not square.")
+  }
+  if (anyNA(mat)) {
+    stop(name, " contains NA values.")
+  }
+  if (!isTRUE(all.equal(mat, t(mat)))) {
+    stop(name, " is not symmetric.")
+  }
+  if (!is.null(ids)) {
+    if (!identical(rownames(mat), ids)) {
+      stop(name, " row order does not match the cohort IDs.")
+    }
+    if (!identical(colnames(mat), ids)) {
+      stop(name, " column order does not match the cohort IDs.")
+    }
+  }
+  invisible(TRUE)
+}
+
+clinical_ids <- as.character(pd_model$Anonymised_sampleID)
+
+check_matrix(updrs_affinity_mat, "updrs_affinity_mat", clinical_ids)
+check_matrix(moca_affinity_mat, "moca_affinity_mat", clinical_ids)
+check_matrix(ledd_affinity_mat, "ledd_affinity_mat", clinical_ids)
+check_matrix(metab_affinity_mat, "metab_affinity_mat", clinical_ids)
+
+if (!identical(rownames(metab_pd), clinical_ids)) {
+  stop("metab_pd row order does not match clinical IDs.")
+}
+if (!identical(rownames(metab_scaled), clinical_ids)) {
+  stop("metab_scaled row order does not match clinical IDs.")
+}
+if (!identical(rownames(metab_dist_snf), clinical_ids)) {
+  stop("metab_dist_snf row order does not match clinical IDs.")
+}
+
+expected_dist_snf <- SNFtool::dist2(as.matrix(metab_scaled), as.matrix(metab_scaled))
+rownames(expected_dist_snf) <- clinical_ids
+colnames(expected_dist_snf) <- clinical_ids
+if (!isTRUE(all.equal(expected_dist_snf, metab_dist_snf))) {
+  stop("Stored metab_dist_snf does not match dist2(metab_scaled, metab_scaled).")
+}
+
+compute_affinity_upper_bound <- function(diff, K = snf_params$K, sigma = snf_params$sigma) {
+  diff <- as.matrix(diff)
+  diff <- (diff + t(diff)) / 2
+  diag(diff) <- 0
+
+  K_eff <- max(1, min(K, nrow(diff) - 2))
+  sortedColumns <- as.matrix(t(apply(diff, 2, sort)))
+  finiteMean <- function(x) mean(x[is.finite(x)])
+
+  means <- apply(sortedColumns[, (1:K_eff) + 1, drop = FALSE], 1, finiteMean) + .Machine$double.eps
+  avg <- function(x, y) (x + y) / 2
+  Sig <- outer(means, means, avg) / 3 * 2 + diff / 3 + .Machine$double.eps
+  Sig[Sig <= .Machine$double.eps] <- .Machine$double.eps
+
+  upper_bound <- dnorm(0, mean = 0, sd = sigma * Sig, log = FALSE)
+
+  rownames(Sig) <- rownames(diff)
+  colnames(Sig) <- colnames(diff)
+  rownames(upper_bound) <- rownames(diff)
+  colnames(upper_bound) <- colnames(diff)
+
+  list(Sig = Sig, upper_bound = upper_bound, K_eff = K_eff)
+}
+
+upper_bound_obj <- compute_affinity_upper_bound(metab_dist_snf)
+metab_affinity_sig <- upper_bound_obj$Sig
+metab_affinity_upper_bound <- upper_bound_obj$upper_bound
+metab_affinity_ratio_to_max <- metab_affinity_mat / metab_affinity_upper_bound
+
+saveRDS(metab_affinity_sig, file.path(metabolomics_dir, "metab_affinity_sig.rds"))
+saveRDS(metab_affinity_upper_bound, file.path(metabolomics_dir, "metab_affinity_upper_bound.rds"))
+saveRDS(metab_affinity_ratio_to_max, file.path(metabolomics_dir, "metab_affinity_ratio_to_max.rds"))
+
+metab_affinity_offdiag <- metab_affinity_mat[upper.tri(metab_affinity_mat)]
+metab_upper_offdiag <- metab_affinity_upper_bound[upper.tri(metab_affinity_upper_bound)]
+metab_ratio_offdiag <- metab_affinity_ratio_to_max[upper.tri(metab_affinity_ratio_to_max)]
+
+summary_table <- data.frame(
+  metric = c(
+    "n_patients",
+    "n_features",
+    "snf_affinity_min",
+    "snf_affinity_max",
+    "snf_affinity_offdiag_median",
+    "theoretical_upper_bound_offdiag_min",
+    "theoretical_upper_bound_offdiag_median",
+    "theoretical_upper_bound_offdiag_max",
+    "ratio_to_max_offdiag_median",
+    "ratio_to_max_offdiag_99th_percentile",
+    "ratio_to_max_offdiag_max"
+  ),
+  value = c(
+    nrow(metab_scaled),
+    ncol(metab_scaled),
+    min(metab_affinity_mat, na.rm = TRUE),
+    max(metab_affinity_mat, na.rm = TRUE),
+    median(metab_affinity_offdiag, na.rm = TRUE),
+    min(metab_upper_offdiag, na.rm = TRUE),
+    median(metab_upper_offdiag, na.rm = TRUE),
+    max(metab_upper_offdiag, na.rm = TRUE),
+    median(metab_ratio_offdiag, na.rm = TRUE),
+    as.numeric(quantile(metab_ratio_offdiag, 0.99, na.rm = TRUE, names = FALSE)),
+    max(metab_ratio_offdiag, na.rm = TRUE)
+  ),
+  stringsAsFactors = FALSE
+)
+
+qc_flags <- data.frame(
+  metric = c(
+    "clinical_row_order_identical",
+    "metab_row_order_identical",
+    "metab_dist_matches_dist2",
+    "metab_affinity_symmetric",
+    "metab_affinity_has_na",
+    "clinical_affinities_have_na"
+  ),
+  value = c(
+    TRUE,
+    TRUE,
+    TRUE,
+    TRUE,
+    anyNA(metab_affinity_mat),
+    anyNA(updrs_affinity_mat) || anyNA(moca_affinity_mat) || anyNA(ledd_affinity_mat)
+  ),
+  stringsAsFactors = FALSE
+)
+
+write.csv(summary_table, file.path(qc_dir, "affinity_upper_bound_summary.csv"), row.names = FALSE)
+saveRDS(summary_table, file.path(qc_dir, "affinity_upper_bound_summary.rds"))
+write.csv(qc_flags, file.path(qc_dir, "network_qc_flags.csv"), row.names = FALSE)
+
+message("Network QC complete.")
+message("Outputs saved to: ", qc_dir)
