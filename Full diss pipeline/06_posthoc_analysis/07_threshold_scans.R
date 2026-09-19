@@ -1,9 +1,22 @@
 # 06_posthoc_analysis/07_threshold_scans.R
-# Re-runnable from a fresh R session.
+# This script tests whether simple thresholds on individual clinical variables
+# can approximate the primary SNF cluster solution. It scans possible thresholds
+# and compares the resulting groups with the primary clusters using clustering
+# agreement measures.
 #
-# - scan simple clinical thresholds against the primary SNF cluster solution
-# - ask whether a single clinical threshold (or two thresholds) can approximate
-#   the current primary clusters
+# Fixed settings:
+# - Clinical variables scanned: UPDRS III, MoCA, LEDD, age, and disease duration,
+#   where available.
+# - The script supports primary solutions containing 2 or 3 clusters.
+# - For 3-cluster solutions, a maximum of 200 candidate thresholds per variable
+#   is used.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The analysis cohort and primary SNF cluster solution must already exist.
+#
+# Outputs are saved under `paths$posthoc/threshold_scans/`, including full
+# threshold scans, best thresholds, contingency tables, and plots.
 # - report ARI, NMI, VI, and exact agreement
 
 # -----------------------------------------------------------------------------
