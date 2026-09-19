@@ -1,6 +1,11 @@
-# =========================================================
-# Shared comparison helpers for representation comparison
-# =========================================================
+# Shared helper functions for comparing clustering solutions in the
+# representation-comparison sensitivity analysis.
+#
+# These functions load and validate cluster results, merge cluster labels
+# between the two- and four-network solutions, calculate pairwise
+# co-clustering agreement, and save comparison tables and a heatmap.
+#
+# No project-specific file paths or parameters need to be set in this file.
 
 load_cluster_results <- function(path, expected_name = NULL) {
   if (!file.exists(path)) {
