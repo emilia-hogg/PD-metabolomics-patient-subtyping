@@ -1,4 +1,3 @@
-# =========================================================
 # 03_cluster_solution.R
 #
 # This script derives the cluster solution for the representation-comparison
