@@ -1,4 +1,20 @@
 # 03_network_construction/02_build_metabolomics_network.R
+# This script builds the metabolomics affinity matrix for the analysis cohort.
+# It removes zero-variance metabolites, standardises the remaining features,
+# calculates pairwise distances, and converts these to an SNF affinity matrix.
+#
+# Fixed settings:
+# - Zero-variance filtering is applied to metabolites only.
+# - SNF K = `snf_params$K`
+# - SNF sigma = `snf_params$sigma`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$analysis_cohort` must point to an existing analysis cohort.
+#
+# Outputs are saved under `paths$clinical_networks/metabolomics_network/`,
+# including the processed metabolomics matrices, distance matrix, affinity
+# matrix, affinity-distribution histograms, and a summary file.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
