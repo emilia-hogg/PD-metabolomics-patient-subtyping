@@ -1,4 +1,11 @@
-# Shared helpers for the top-20 metabolite sensitivity pipelines.
+# Shared helper functions for the top-20 metabolite sensitivity analyses.
+#
+# These functions support affinity-matrix construction, SNF, eigengap and
+# spectral clustering, comparison of clustering solutions, and saving of
+# analysis outputs. The file also defines the top-20 metabolite list and
+# functions for matching these metabolites to the metabolomics data.
+#
+# No project-specific file paths need to be set in this file.
 
 if (!requireNamespace('SNFtool', quietly = TRUE)) {
   stop('SNFtool is required but is not available.')
