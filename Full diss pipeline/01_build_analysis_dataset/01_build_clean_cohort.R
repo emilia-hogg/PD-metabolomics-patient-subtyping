@@ -1,4 +1,29 @@
 # 01_build_analysis_dataset/01_build_clean_cohort.R
+# This script builds the analysis cohort by matching metabolomics data to clinical
+# metadata, selecting patients with `PATIENT_CASE == "Diagnosis_3y"`, converting
+# required clinical variables to numeric form, and applying complete-case
+# filtering to the primary clinical variables.
+#
+# The resulting cohort contains the filtered clinical data, matching metabolomics
+# data, and sample IDs. Cohort QC metrics are also saved as RDS and CSV files.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The workspace file specified by `files$workspace_rdata` must exist and contain
+#   the `imputation_2_data` object.
+# - Clinical metadata must either contain `full_patient_info` in that workspace
+#   or be available at `files$clinical_rds`.
+#
+# Required clinical variables include `Anonymised_sampleID`, `PATIENT_CASE`,
+# `UPDRS_III`, `MOCA_total`, `LEDD_total`, `AGE`, and `GENDER`. If `age_onset`
+# is available, it is used to calculate disease duration.
+#
+# Outputs:
+# - `analysis_cohort.rds`
+# - `patient_metadata.rds`
+# - `sample_ids.rds`
+# - `cohort_qc_summary.rds`
+# - `cohort_qc_summary.csv`
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
