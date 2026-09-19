@@ -1,6 +1,4 @@
-# ============================================================
 # 03b_affinity_summary_all.R
-#
 # Reuses the upper-bound calculation from 03_network_qc.R 
 # Extended to the three clinical networks
 
@@ -20,7 +18,6 @@
 # Output:
 # - `affinity_summary_all_networks.csv`
 # - `affinity_summary_all_networks.rds`
-# ============================================================
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
