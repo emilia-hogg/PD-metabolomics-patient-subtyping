@@ -1,5 +1,27 @@
 # 02_exploratory_analysis/02_umap.py
 
+# This script performs UMAP dimensionality reduction on the preprocessed
+# metabolomics data. It reads the cleaned metabolomics input, converts the
+# features to numeric values, standardises them using StandardScaler, and
+# generates a 2D UMAP embedding.
+#
+# UMAP settings:
+# - n_neighbors = 15
+# - min_dist = 0.1
+# - metric = "euclidean"
+# - random_state = 42
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `umap_input_clean.csv` must exist in
+#   `01_build_analysis_dataset/outputs/`.
+# - Change the UMAP settings above in the `umap.UMAP()` call if different
+#   parameter values are required.
+#
+# Outputs:
+# - `umap_coords_clean.csv` containing sample IDs and the two UMAP coordinates.
+# - `umap_scatter.png` containing the 2D UMAP plot.
+
 from pathlib import Path
 
 import pandas as pd
