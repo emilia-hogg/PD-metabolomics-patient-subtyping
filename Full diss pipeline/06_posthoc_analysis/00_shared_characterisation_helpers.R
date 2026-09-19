@@ -1,6 +1,15 @@
 # 06_posthoc_analysis/00_shared_characterisation_helpers.R
+# Shared helper functions for the post-hoc analyses.
 #
-# Shared helpers for post-hoc characterisation and sensitivity-vs-primary comparisons.
+# These functions support loading and validating analysis data and SNF outputs,
+# comparing primary and sensitivity networks and cluster solutions, identifying
+# cluster switchers, summarising clinical variables by cluster, and summarising
+# metabolite classes.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The required analysis, SNF, and sensitivity outputs must already exist for
+#   whichever downstream post-hoc script is using these functions.
 
 # -----------------------------------------------------------------------------
 # 0. Load config and packages
