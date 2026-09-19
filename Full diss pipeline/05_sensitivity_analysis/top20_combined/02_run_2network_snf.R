@@ -1,5 +1,17 @@
-# Top-20 combined sensitivity analysis
-# 2-network SNF: combined clinical + combined top-20 metabolite panel
+# This script runs a two-network SNF using the combined clinical affinity
+# matrix and the combined top-20 metabolite affinity matrix.
+#
+# Fixed settings:
+# - K = `snf_params$K`
+# - T = `snf_params$t`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The combined clinical and top-20 metabolite affinity matrices must already
+#   have been created by `01_build_top20_network.R`.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/top20_combined/`,
+# including the fused network, QC summary, and SNF results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
