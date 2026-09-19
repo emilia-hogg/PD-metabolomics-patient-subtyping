@@ -1,4 +1,9 @@
 # 00_config/packages.R
+# This script defines the R packages required for the analysis pipeline.
+# For each package, it checks whether the package is installed, installs it
+# from CRAN if necessary, and then loads it while suppressing startup messages.
+#
+# No file paths or other parameters need to be set before running this script.
 
 required_packages <- c(
   "SNFtool",
