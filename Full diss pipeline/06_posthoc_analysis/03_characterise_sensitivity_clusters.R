@@ -1,11 +1,29 @@
 # 06_posthoc_analysis/03_characterise_sensitivity_clusters.R
-# Re-runnable from a fresh R session.
-#
+
+# This script characterises the clusters produced by each sensitivity analysis
+# using clinical variables. It summarises cluster sizes and clinical
+# characteristics, tests for differences between clusters, and produces
+# clinical plots for each sensitivity branch.
 # - load sensitivity branch cluster labels
 # - merge labels onto the clinical cohort
 # - mirror the primary-cluster characterisation logic
 # - use raw clinical variables where available, with safe numeric coercion
 # - compute cluster sizes, descriptive stats, Wilcoxon/Kruskal tests, and effect sizes
+#
+# Sensitivity branches:
+# - Clinical-only
+# - No-LEDD
+# - Representation comparison
+# - Top-20 combined
+# - Top-20 23-network
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `analysis_cohort.rds` and the cluster solutions for all sensitivity
+#   branches must already exist.
+#
+# Outputs are saved under `paths$posthoc/sensitivity_clusters/`, with separate
+# results for each branch and combined summary tables across branches.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
