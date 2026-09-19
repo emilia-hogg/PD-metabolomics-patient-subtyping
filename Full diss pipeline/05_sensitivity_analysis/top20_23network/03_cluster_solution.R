@@ -1,5 +1,20 @@
-# Top-20 sensitivity analysis
-# Cluster the fused 23-network solution using eigengap + spectral clustering.
+# This script derives cluster solutions from the fused 23-network SNF matrix
+# for the top-20 metabolite sensitivity analysis. It selects the cluster
+# number using the eigengap and performs spectral clustering for the best k
+# and, when available, the second-best k.
+#
+# Fixed settings:
+# - Eigengap scan considers the first 10 candidate cluster numbers.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `top20_23network_snf_results.rds` must already have been created by
+#   `02_run_23network_snf.R`.
+#
+# Outputs are saved under
+# `05_sensitivity_analysis/outputs/top20_23network/cluster_solution/`,
+# including the eigengap results, best-k cluster solution, and second-best-k
+# cluster labels when available.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
