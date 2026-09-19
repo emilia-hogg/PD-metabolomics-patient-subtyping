@@ -1,5 +1,38 @@
 # 02_exploratory_analysis/06_summary.R
 
+# This script collects the outputs from the exploratory analyses and produces
+# a consolidated summary under `paths$exploratory/summary/`. It summarises
+# PCA, k-means, DBSCAN, and HDBSCAN results when the corresponding output
+# files are available.
+#
+# The script:
+# - Records which main exploratory outputs are available.
+# - Summarises PCA variance explained.
+# - Summarises k-means results for PCA and UMAP representations (!! remove
+#   UMAP section if removed in '03_kmeans.R').
+# - Summarises DBSCAN parameter-scan results.
+# - Summarises HDBSCAN results across `minPts` values.
+# - Produces a combined compact exploratory-analysis report and a text note.
+#
+# Fixed settings / selection rules:
+# - PCA summary includes the first 10 PCs and specifically records PC10.
+# - For k-means PCA, the highest average silhouette is selected within each
+#   PC set, with total within-cluster sum of squares used as the tie-breaker.
+# - For k-means UMAP, the highest average silhouette is selected, with total
+#   within-cluster sum of squares used as the tie-breaker.
+# - For DBSCAN, the summary ranking favours more clusters, then fewer noise
+#   points, then the smaller epsilon.
+# - For HDBSCAN, the summary ranking favours more clusters, then fewer noise
+#   points, then higher mean membership probability.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The script expects the relevant exploratory-analysis output files to have
+#   been created by the preceding scripts. Missing outputs are handled without
+#   stopping the script.
+#
+# Outputs are saved under `paths$exploratory/summary/`.
+
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
 source(file.path(project_root, "00_config", "packages.R"))
