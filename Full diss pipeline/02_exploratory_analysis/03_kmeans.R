@@ -1,5 +1,40 @@
 # 02_exploratory_analysis/03_kmeans.R
 
+# This script performs k-means clustering on two representations of the
+# metabolomics data: PCA scores and 2D UMAP coordinates (!!! final write
+# up did not do k-means clustering on UMAP coordinates, these were only
+# used for visualisation. Redundant code still included in this file). 
+#
+# For PCA, clustering is repeated using the first 5, 10, 20, 30, 40, and
+# 50 principal components. For both PCA and UMAP, k is evaluated from 2 to 10
+# clusters using k-means with 50 random starts and a maximum of 100 iterations
+# per run. Clustering quality is summarised using total within-cluster sum of
+# squares and average silhouette width.
+#
+# The script also generates site-by-cluster diagnostics when site information
+# is available, including cluster counts and percentages by site and a
+# chi-squared test.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - PCA scores must exist at `paths$exploratory/pca/pca_scores.rds`.
+# - UMAP coordinates must exist at
+#   `paths$exploratory/umap/umap_coords_clean.csv`.
+# - The processed clinical data must exist at `files$clinical_processed` and
+#   contain `Anonymised_sampleID`. Site information is used when one of
+#   `site`, `Recruitment_site`, or `SITE` is available.
+#
+# Fixed clustering settings:
+# - k = 2:10
+# - nstart = 50
+# - iter.max = 100
+# - random seed = 1 for each k-means run
+# - PCA representations: 5, 10, 20, 30, 40, and 50 PCs
+#
+# Outputs are saved under `paths$exploratory/kmeans/` and include cluster
+# labels, clustering metrics, elbow and silhouette plots, optional
+# site-by-cluster diagnostics, and RDS files containing the results.
+
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
 source(file.path(project_root, "00_config", "packages.R"))
