@@ -1,5 +1,20 @@
-# Top-20 sensitivity analysis (combined clinical + combined metabolite panel)
-# Build one combined clinical affinity and one combined top-20 metabolite affinity.
+# This script builds two affinity matrices for the top-20 metabolite sensitivity
+# analysis: one combining UPDRS, MoCA, and LEDD, and one combining the 20 selected
+# metabolites.
+#
+# Fixed settings:
+# - SNF K = `snf_params$K`
+# - SNF sigma = `snf_params$sigma`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `clinical_processed.rds` and `analysis_cohort.rds` must already exist.
+# - The 20 metabolites listed in `top20_metabolites` must be resolved in the
+#   metabolomics data.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/top20_combined/`,
+# including the two affinity matrices, QC summaries, metabolite resolution
+# information, and network manifest.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
