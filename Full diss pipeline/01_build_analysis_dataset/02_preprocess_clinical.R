@@ -1,4 +1,17 @@
 # 01_build_analysis_dataset/02_preprocess_clinical.R
+# This script preprocesses the clinical variables in the analysis cohort by
+# residualising UPDRS III, MOCA, LEDD, and disease duration against age and
+# gender. The processed clinical data and a summary of the retained samples
+# are then saved.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$analysis_cohort` must point to an existing analysis cohort created
+#   by `01_build_clean_cohort.R`.
+#
+# Outputs:
+# - `clinical_processed.rds`
+# - `clinical_preprocess_summary.csv`
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
