@@ -1,5 +1,20 @@
-# Top-20 sensitivity analysis
-# Build three clinical affinities plus 20 separate metabolite affinities.
+# This script builds 23 separate affinity matrices for the top-20 metabolite
+# sensitivity analysis: three clinical networks (UPDRS, MoCA, and LEDD) plus
+# 20 individual metabolite networks.
+#
+# Fixed settings:
+# - SNF K = `snf_params$K`
+# - SNF sigma = `snf_params$sigma`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `clinical_processed.rds` and `analysis_cohort.rds` must already exist.
+# - All 20 metabolites listed in `top20_metabolites` must be resolvable in
+#   the metabolomics data.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/top20_23network/`,
+# including the individual affinity matrices, network manifest, and summaries
+# of the resolved metabolites and network count.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
