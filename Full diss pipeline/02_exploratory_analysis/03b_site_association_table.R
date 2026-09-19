@@ -1,8 +1,23 @@
-# ============================================================
 # 03b_site_association_table.R
-# Builds from the contingency tables already written by 03_kmeans.R. 
-# Produces: <exploratory>/kmeans/site_association_all.csv
-# ============================================================
+# This script summarises the association between site and cluster membership
+# using the site-by-cluster contingency tables produced by `03_kmeans.R`.
+# For each PCA/UMAP representation and cluster number, it calculates the
+# chi-squared test statistic and p-value, a Monte Carlo p-value, Cramer's V,
+# and the percentage of expected cell counts below 5.
+#
+# Fixed settings:
+# - Monte Carlo chi-squared tests use B = 10,000 simulations.
+# - Random seed = 1 for the Monte Carlo calculations.
+# - P-values are adjusted across the full set of tests using the
+#   Benjamini-Hochberg (BH) method.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The site-by-cluster count files produced by `03_kmeans.R` must exist
+#   under `paths$exploratory/kmeans/`.
+#
+# Output:
+# - `site_association_all.csv`
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
