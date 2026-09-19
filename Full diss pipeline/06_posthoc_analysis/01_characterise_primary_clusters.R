@@ -1,6 +1,14 @@
 # 06_posthoc_analysis/01_characterise_primary_clusters.R
+# This script characterises the primary SNF clusters using clinical variables.
+# It summarises cluster sizes and clinical characteristics, tests for differences
+# between clusters, and produces plots of the clinical variables by cluster.
 #
-# Characterise the primary integrated SNF clusters.
+# Before running:
+# - Set `project_root` in `00_shared_characterisation_helpers.R`.
+# - The analysis cohort and primary SNF cluster solution must already exist.
+#
+# Outputs are saved under `paths$posthoc/primary_clusters/`, including cluster
+# membership, clinical summaries and tests, annotated data, and plots.
 #
 
 # -----------------------------------------------------------------------------
