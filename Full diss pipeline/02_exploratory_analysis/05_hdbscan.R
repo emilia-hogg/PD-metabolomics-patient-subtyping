@@ -1,4 +1,29 @@
 # 02_exploratory_analysis/05_hdbscan.R
+# This script performs HDBSCAN clustering on the first 20 principal component
+# scores from the metabolomics data. HDBSCAN is run across several `minPts`
+# values, and the resulting cluster assignments, membership probabilities,
+# outlier scores, cluster summaries, and comparison metrics are saved.
+#
+# The resulting HDBSCAN clusters are also visualised using the 2D UMAP
+# coordinates, with one UMAP plot produced for each `minPts` value.
+#
+# Fixed settings:
+# - PCA input: PC1-PC20
+# - minPts values: 3, 5, 10, 20, 40
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `pca_scores.rds` must exist at `paths$exploratory/pca/pca_scores.rds`.
+# - `umap_coords_clean.csv` must exist at
+#   `paths$exploratory/umap/umap_coords_clean.csv`.
+#
+# Note:
+# - HDBSCAN clustering itself is performed on the first 20 PCs.
+# - UMAP is used only to visualise the resulting HDBSCAN cluster assignments.
+#
+# Outputs are saved under `paths$exploratory/hdbscan/`, including cluster
+# assignments for each `minPts`, summary and metric tables, UMAP cluster plots,
+# and combined RDS summaries of all HDBSCAN results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
