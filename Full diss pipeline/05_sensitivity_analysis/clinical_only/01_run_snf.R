@@ -1,8 +1,18 @@
-# =========================================================
 # 01_run_snf.R
-# Clinical-only sensitivity branch
-# 3-network SNF: UPDRS + MoCA + LEDD
-# =========================================================
+# This script runs the clinical-only sensitivity analysis using a three-network
+# SNF model consisting of UPDRS, MoCA, and LEDD.
+#
+# Fixed settings:
+# - K = `snf_params$K`
+# - T = `snf_params$t`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The UPDRS, MoCA, and LEDD affinity matrices must already exist in the
+#   clinical network output directory.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/clinical_only/`,
+# including the fused network, QC summary, and SNF results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
