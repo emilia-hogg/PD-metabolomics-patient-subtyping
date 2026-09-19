@@ -1,5 +1,20 @@
-# Top-20 combined sensitivity analysis
-# Cluster the fused 2-network solution using eigengap + spectral clustering.
+# This script derives the cluster solution from the fused two-network SNF
+# matrix for the top-20 combined sensitivity analysis. It selects the number
+# of clusters using the eigengap and performs spectral clustering for the best
+# k and, when available, the second-best k.
+#
+# Fixed settings:
+# - Eigengap scan considers the first 10 candidate cluster numbers.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `top20_combined_2network_snf_results.rds` must already have been created
+#   by `02_run_2network_snf.R`.
+#
+# Outputs are saved under
+# `05_sensitivity_analysis/outputs/top20_combined/cluster_solution/`,
+# including the eigengap results, best-k cluster solution, and second-best-k
+# cluster labels when available.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
