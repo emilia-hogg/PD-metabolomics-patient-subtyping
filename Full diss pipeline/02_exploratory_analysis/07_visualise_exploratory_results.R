@@ -1,4 +1,17 @@
 # 02_exploratory_analysis/07_visualise_exploratory_results.R
+# This script creates visualisations of the exploratory analysis results.
+# UMAP is used to visualise clinical variables and cluster assignments from
+# PCA-based k-means, DBSCAN, and HDBSCAN. The script also produces
+# site-by-cluster outputs where site data are available and copies selected
+# figures and tables to the dissertation report folder.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The processed clinical data, UMAP coordinates, and relevant clustering
+#   outputs must already have been generated.
+#
+# Outputs are saved under `paths$exploratory/visualisations/`, with selected
+# outputs also copied to `paths$dissertation_figures/report_sheet/`.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
