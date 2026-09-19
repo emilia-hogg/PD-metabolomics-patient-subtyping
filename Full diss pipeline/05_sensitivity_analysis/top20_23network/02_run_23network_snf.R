@@ -1,5 +1,18 @@
-# Top-20 sensitivity analysis
-# 23-network SNF: 3 clinical networks + 20 separate metabolite networks
+# This script runs SNF using the 23 affinity matrices from the top-20
+# sensitivity analysis: three clinical networks and 20 separate metabolite
+# networks.
+#
+# Fixed settings:
+# - K = `snf_params$K`
+# - T = `snf_params$t`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `top20_23network_affinity_list.rds` must already have been created by
+#   `01_build_top20_networks.R`.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/top20_23network/`,
+# including the fused network, QC summary, and SNF results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
