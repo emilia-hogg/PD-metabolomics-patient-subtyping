@@ -1,17 +1,27 @@
-# ============================================================
-# 04_baseline_characteristics.R
-# Baseline characteristics table for the analysis cohort
-# ------------------------------------------------------------
-# - Fresh-session compatible
-# - Loads analysis_cohort.rds as the single source of truth
-# - Does not redefine the cohort
-# - Produces:
-#     * baseline_characteristics.csv
-#     * baseline_characteristics_publication.csv
-#     * baseline_characteristics.rds
-#     * baseline_characteristics_summary.txt
-# - No DOCX dependency
-# ============================================================
+# 01_build_analysis_dataset/04_baseline_characteristics.R
+
+# This script generates baseline characteristics for the analysis cohort,
+# including summaries of clinical variables, sex, and metabolomics data.
+# Continuous variables are reported using mean (SD), median [IQR], and range,
+# together with non-missing and missing counts. A publication-formatted table
+# and a QC summary are also created.
+#
+# The analysis cohort is loaded from `files$analysis_cohort` and is not
+# redefined by this script. If `files$metabolomics_processed` exists, the
+# processed metabolomics data are used to report the number of retained
+# metabolite features; otherwise this is derived from the raw cohort matrix.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$analysis_cohort` must point to an existing analysis cohort.
+# - `files$metabolomics_processed` is optional; if present, its sample IDs
+#   must match those in the analysis cohort.
+#
+# Outputs:
+# - `baseline_characteristics.csv`
+# - `baseline_characteristics_publication.csv`
+# - `baseline_characteristics.rds`
+# - `baseline_characteristics_summary.txt`
 
 # -----------------------------
 # 1. Project setup
@@ -42,6 +52,8 @@ stop_if_missing <- function(x, object_name) {
   invisible(TRUE)
 }
 
+# Return the first available variable name from a set of alternative names,
+# stopping if none of the expected variables are present.
 first_present <- function(x, candidates, object_name) {
   for (nm in candidates) {
     if (nm %in% names(x)) {
@@ -182,6 +194,8 @@ summarise_binary_categorical <- function(df, var_name, label = "Sex", level_orde
   do.call(rbind, out)
 }
 
+# Summarise metabolomics sample and feature counts, including zero-variance
+# filtering and the number of features retained after preprocessing.
 summarise_metabolomics <- function(raw_metab, processed_metab = NULL, sample_ids = NULL) {
   raw_metab <- as.data.frame(raw_metab)
 
@@ -311,6 +325,8 @@ summarise_metabolomics <- function(raw_metab, processed_metab = NULL, sample_ids
   do.call(rbind, rows)
 }
 
+# Create a publication-formatted version of the baseline table with selected
+# columns, reader-friendly column names, and formatted percentages.
 make_publication_table <- function(df) {
   pub <- df[, c(
     "section",
