@@ -1,4 +1,12 @@
 # 00_config/config.R
+# This script defines the project root directory, file and output paths,
+# SNF parameters, and analysis switches used throughout the analysis pipeline.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - Update `files$clinical_rds` if the clinical input file is stored elsewhere.
+#
+# The script also creates the project output directories defined in `paths`.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
