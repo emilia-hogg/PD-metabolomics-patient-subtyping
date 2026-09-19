@@ -1,6 +1,21 @@
 # 04_snf/03_cluster_solution.R
-# Cluster solution for the primary four-network SNF
-# Re-runnable from a fresh R session.
+# This script derives the primary cluster solution from the fused four-network
+# SNF matrix. It calculates the eigengaps of the normalised graph Laplacian,
+# selects the cluster number with the largest eigengap, and then performs
+# spectral clustering using that cluster number.
+#
+# Fixed settings:
+# - Eigengaps are evaluated for the first 10 candidate cluster numbers.
+# - Spectral clustering uses the k selected from the largest eigengap.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The primary fused SNF network and its sample IDs must already exist in
+#   `paths$snf/main_four_network/`.
+#
+# Outputs are saved under `paths$snf/main_four_network/cluster_solution/`,
+# including eigengap results, the selected cluster solution, cluster sizes,
+# and a record of the run.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
