@@ -1,9 +1,19 @@
-# =========================================================
 # 02_cluster_solution.R
-# Clinical-only sensitivity branch clustering
-# Loads fused network from 01_run_snf.R
 # Uses the same eigengap + spectral clustering logic as the shared helpers
-# =========================================================
+# 
+# This script derives the cluster solution for the clinical-only sensitivity
+# analysis from the fused three-network SNF matrix. It selects the number of
+# clusters using the eigengap and then performs spectral clustering.
+#
+# Fixed settings:
+# - Eigengap scan considers the first 10 candidate cluster numbers.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `clinical_only_snf_results.rds` must already have been created by
+#   `01_run_snf.R`.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/clinical_only/`.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
