@@ -1,5 +1,23 @@
 # 04_characterise_sensitivity_metabolites.R
-# Re-runnable from a fresh R session.
+# This script characterises metabolite differences between clusters for each
+# sensitivity analysis. It performs metabolite-level statistical tests, applies
+# BH correction, adds chemical annotations, summarises metabolite classes, and
+# produces diagnostic plots, volcano plots, and heatmaps.
+#
+# Fixed settings:
+# - All sensitivity cluster solutions are expected to contain two clusters.
+# - Welch and Wilcoxon tests are performed for each metabolite.
+# - P-values are adjusted using the Benjamini-Hochberg (BH) method.
+# - Significance threshold = 0.05.
+# - The Top-20 branches are restricted to the specified 20 metabolites.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The processed analysis data and sensitivity cluster solutions must exist.
+# - `chemical_annotation.xlsx` must exist under `06_posthoc_analysis/inputs/`.
+#
+# Outputs are saved under `paths$posthoc/sensitivity_metabolites/`, with
+# separate results for each sensitivity branch and combined summary outputs.
 
 # -----------------------------------------------------------------------------
 # 0. Load config, packages, and shared helpers
