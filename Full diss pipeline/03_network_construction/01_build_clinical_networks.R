@@ -1,4 +1,19 @@
 # 03_network_construction/01_build_clinical_networks.R
+# This script builds three clinical affinity matrices from the processed
+# clinical data: UPDRS, MoCA, and LEDD. The clinical variables are residualised
+# against age and gender, standardised, and converted to affinity matrices using
+# the SNFtool distance and affinity functions.
+#
+# Fixed settings:
+# - SNF K = `snf_params$K`
+# - SNF sigma = `snf_params$sigma`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$clinical_processed` must point to an existing processed clinical file.
+#
+# Outputs are saved under `paths$clinical_networks/clinical_network/`,
+# including the three affinity matrices, QC histograms, and a summary file.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
