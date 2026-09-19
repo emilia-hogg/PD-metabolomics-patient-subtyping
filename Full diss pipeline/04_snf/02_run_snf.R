@@ -1,5 +1,23 @@
 # 04_snf/02_run_snf.R
-# Re-runnable from a fresh R session.
+# This script runs the primary four-network SNF using the UPDRS, MoCA, LEDD,
+# and metabolomics affinity matrices. It checks that the input networks have
+# matching sample IDs, fuses them with the configured SNF parameters, and saves
+# the fused network and basic QC outputs.
+#
+# Fixed settings:
+# - K = `snf_params$K`
+# - sigma = `snf_params$sigma` (used to create the input affinity matrices;
+#   not passed directly to `SNF()` here)
+# - t = `snf_params$t`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The four affinity matrices must already have been created by the network
+#   construction scripts.
+#
+# Outputs are saved under `paths$snf/main_four_network/`, including the fused
+# network, sample IDs, run metadata, summary statistics, and a histogram of
+# fused-network values.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
