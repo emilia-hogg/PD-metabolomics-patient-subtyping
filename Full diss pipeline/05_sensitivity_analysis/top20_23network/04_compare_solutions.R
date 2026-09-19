@@ -1,5 +1,16 @@
-# Top-20 sensitivity analysis
-# Compare the 23-network top-20 solution to the main four-network solution.
+# This script compares the top-20 metabolite 23-network SNF solution with the
+# primary four-network SNF solution. It compares the fused networks and cluster
+# assignments between the two solutions.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The primary four-network SNF and cluster solution must already exist.
+# - The top-20 23-network SNF and cluster solution must already have been
+#   generated.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/top20_23network/comparison/`,
+# including network similarity, cluster agreement, matched cluster labels,
+# and the branch SNF results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
