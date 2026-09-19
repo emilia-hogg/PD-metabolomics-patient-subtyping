@@ -3,6 +3,23 @@
 #
 # Reuses the upper-bound calculation from 03_network_qc.R 
 # Extended to the three clinical networks
+
+# This script summarises the affinity matrices for the three clinical networks,
+# the metabolomics network, and any available combined/fused networks. It reports
+# affinity distributions and, for raw affinity matrices, their ratio to a
+# theoretical upper bound.
+#
+# Fixed settings:
+# - The upper-bound calculation uses `snf_params$K` and `snf_params$sigma`.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The clinical and metabolomics network outputs must already have been
+#   generated.
+#
+# Output:
+# - `affinity_summary_all_networks.csv`
+# - `affinity_summary_all_networks.rds`
 # ============================================================
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
