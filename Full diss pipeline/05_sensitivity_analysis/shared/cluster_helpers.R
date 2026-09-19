@@ -1,6 +1,11 @@
-# =========================================================
-# Shared clustering helpers for sensitivity analyses
-# =========================================================
+# Shared helper functions for the sensitivity-analysis clustering scripts.
+# These functions perform eigengap scans, spectral clustering, cluster summaries,
+# and saving of cluster-analysis outputs.
+#
+# The eigengap scan evaluates candidate cluster numbers up to `max_k` and
+# records the best and second-best eigengaps.
+#
+# No project-specific file paths or parameters need to be set in this file.
 
 compute_eigengap_scan <- function(W, max_k = 10L) {
   W <- as.matrix(W)
