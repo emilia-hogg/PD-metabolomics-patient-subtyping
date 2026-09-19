@@ -1,6 +1,29 @@
-# ============================================================
 # 04_dbscan.R  (CORRECTED)
-# ============================================================
+# This script performs DBSCAN clustering on the first 20 principal component
+# scores from the metabolomics data. It first examines k-nearest-neighbour
+# distances, identifies an elbow-based epsilon value, constructs an epsilon
+# grid from the observed distances, and scans DBSCAN solutions across that grid.
+#
+# Fixed settings:
+# - PCA input: PC1-PC20
+# - minPts = 40
+# - 40 epsilon values are evaluated across the data-derived epsilon range
+# - The elbow epsilon is identified numerically as the point furthest from
+#   the straight line joining the first and last sorted kNN distances.
+# - kNN diagnostic plots are produced for k = 20, 40, and 60.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `pca_scores.rds` must exist at `paths$exploratory/pca/pca_scores.rds`.
+# - `umap_coords_clean.csv` must exist at
+#   `paths$exploratory/umap/umap_coords_clean.csv`.
+#   Note: the current script checks for and loads this UMAP file, but does
+#   not otherwise use the UMAP coordinates in the DBSCAN analysis (redundancy
+#   related to note in '03_kmeans.R').
+#
+# Outputs are saved under `paths$exploratory/dbscan/`, including the PC1-PC20
+# DBSCAN input matrix, kNN distance plots, parameter-scan summary and plot,
+# and the DBSCAN results across all epsilon values.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
