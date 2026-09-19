@@ -1,8 +1,17 @@
-# =========================================================
 # 03_compare_solutions.R
-# clinical_only branch vs saved main four-network solution
-# Compares the 3-network clinical-only solution to the main 4-network solution
-# =========================================================
+# This script compares the clinical-only three-network SNF solution with the
+# primary four-network SNF solution. It compares the fused networks and the
+# resulting cluster assignments, and identifies patients whose cluster differs
+# between the two solutions.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The primary four-network SNF and cluster solution must already exist.
+# - The clinical-only SNF and cluster solution must already have been generated.
+#
+# Outputs are saved under `05_sensitivity_analysis/outputs/clinical_only/comparison/`,
+# including network similarity, cluster agreement, matched labels, and switcher
+# tables.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
