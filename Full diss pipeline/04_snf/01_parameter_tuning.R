@@ -1,20 +1,25 @@
 # 04_snf/01_parameter_tuning.R
+# This script tunes K and sigma for the primary four-network SNF model using
+# the UPDRS, MoCA, LEDD, and metabolomics data. Parameters are evaluated on a
+# fixed 80/20 train/test split using the eigengap of the fused network.
 #
-# Tune SNF hyperparameters K and sigma for the PRIMARY FOUR-NETWORK model:
-#   1) UPDRS
-#   2) MoCA
-#   3) LEDD
-#   4) Metabolomics
+# Fixed settings:
+# - K grid = 10, 15, 20, 25, 30
+# - sigma grid = 0.3, 0.4, 0.5, 0.6, 0.7, 0.8
+# - SNF iterations (t) = `snf_params$t`
+# - Train/test split = 80/20
+# - Random seed for the split = 20240622
+# - The recommended setting maximises the minimum of the train and test
+#   eigengaps.
 #
-# The tuning score is the eigengap of the fused network's normalized
-# graph Laplacian, evaluated separately on train and test splits.
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$clinical_processed` and `files$metabolomics_processed` must exist.
 #
-# This version is optimized to:
-#   - split once
-#   - scale once
-#   - compute distance matrices once
-#   - reuse those distances for every (K, sigma) combination
-#   - use SNFtool::SNF directly (no custom fusion reimplementation)
+# Outputs are saved under
+# `paths$snf/parameter_tuning/primary_four_network/`, including the full
+# tuning results, train/test split information, checkpoints, and selected
+# parameter settings.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
