@@ -1,5 +1,24 @@
 # 02_exploratory_analysis/01_pca.R
 
+# This script performs principal component analysis (PCA) on the scaled
+# metabolomics data from `metabolomics_processed.rds`. It calculates the
+# variance explained by each principal component and saves the PCA model,
+# sample scores, variance summary, and several scree/cumulative variance plots.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `files$metabolomics_processed` must point to an existing processed
+#   metabolomics file containing `metab_scaled` and `sample_ids`.
+#
+# The input matrix is used as provided and is not centred or scaled again
+# within `prcomp()`.
+#
+# Outputs are saved under `paths$exploratory/pca/`, including:
+# - PCA model and sample scores
+# - Variance-explained summaries
+# - Full, 100-PC, and 50-PC scree plots
+# - A cumulative variance plot showing the first PC reaching 75% cumulative variance
+
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
 source(file.path(project_root, "00_config", "packages.R"))
