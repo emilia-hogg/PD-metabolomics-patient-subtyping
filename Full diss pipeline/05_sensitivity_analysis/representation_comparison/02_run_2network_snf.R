@@ -1,8 +1,22 @@
-# =========================================================
 # 02_run_2network_snf.R
-# Representation comparison branch
-# 2-network SNF: Combined clinical + Metabolomics
-# =========================================================
+
+# This script runs the representation-comparison sensitivity analysis using a
+# two-network SNF model combining the combined clinical affinity matrix and
+# the metabolomics affinity matrix.
+#
+# Fixed settings:
+# - K = `snf_params$K`
+# - T = `snf_params$t`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The combined clinical affinity matrix must already have been created by
+#   `01_build_combined_clinical_affinity.R`.
+# - The metabolomics affinity matrix must already exist.
+#
+# Outputs are saved under
+# `05_sensitivity_analysis/outputs/representation_comparison/`, including the
+# fused network, QC summary, and SNF results.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
