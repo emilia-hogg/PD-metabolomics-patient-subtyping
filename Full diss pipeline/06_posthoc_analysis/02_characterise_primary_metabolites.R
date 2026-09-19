@@ -1,17 +1,23 @@
 # 06_posthoc_analysis/02_characterise_primary_metabolites.R
-# Re-runnable from a fresh R session.
+
+# This script characterises metabolite differences between the primary SNF
+# clusters. It performs pairwise metabolite comparisons, applies BH correction,
+# adds metabolite annotations, summarises metabolite classes, and produces
+# diagnostic plots, volcano plots, and heatmaps.
 #
-# - load the primary cluster labels
-# - merge them onto the metabolomics matrix
-# - run per-metabolite Welch tests + Wilcoxon tests
-# - calculate mean differences, confidence intervals, Cohen's d
-# - apply BH correction
-# - generate coloured volcano plots and heatmaps
-# - merge the metabolite annotation file with SUPER_PATHWAY, SUB_PATHWAY,
-#   and CHEMICAL_NAME
-# - summarise metabolite classes
-# - save explicit QQ-plot selection reasons
-# - stop short of pathway enrichment
+# Fixed settings:
+# - Welch and Wilcoxon tests are performed for each pairwise cluster comparison.
+# - P-values are adjusted using the Benjamini-Hochberg (BH) method.
+# - Significance threshold = 0.05.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The processed metabolomics data and primary cluster labels must already exist.
+# - A chemical annotation file (`chemical_annotation.xlsx`, `.xls`, or `.csv`)
+#   must be present under `06_posthoc_analysis/inputs/`.
+#
+# Outputs are saved under `paths$posthoc/primary_metabolites/`, including
+# metabolite results, class summaries, diagnostic tables, and plots.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
