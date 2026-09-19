@@ -1,6 +1,10 @@
-# =========================================================
-# Shared SNF helpers for sensitivity analyses
-# =========================================================
+# Shared helper functions for running SNF in the sensitivity analyses.
+#
+# These functions validate affinity matrices, check that networks have matching
+# sample IDs, run SNF on a list of affinity matrices, summarise the fused
+# network, and save the fused network outputs and QC summary.
+#
+# No project-specific file paths or parameters need to be set in this file.
 
 check_affinity_matrix <- function(W, name = "matrix") {
   W <- as.matrix(W)
