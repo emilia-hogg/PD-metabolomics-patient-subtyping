@@ -1,8 +1,21 @@
-# =========================================================
 # 01_build_combined_clinical_affinity.R
-# Build ONE combined clinical affinity matrix
-# for the representation comparison branch
-# =========================================================
+
+# This script builds one combined clinical affinity matrix from UPDRS, MoCA,
+# and LEDD for the representation-comparison sensitivity analysis.
+#
+# Fixed settings:
+# - SNF K = `snf_params$K`
+# - SNF sigma = `snf_params$sigma`
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - `clinical_processed.rds` must already exist and contain UPDRS_adj,
+#   MOCA_adj, LEDD_adj, and matching sample IDs.
+#
+# Outputs are saved under
+# `05_sensitivity_analysis/outputs/representation_comparison/`, including
+# the combined clinical matrices, affinity matrix, QC summary, and affinity
+# distribution plot.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 
