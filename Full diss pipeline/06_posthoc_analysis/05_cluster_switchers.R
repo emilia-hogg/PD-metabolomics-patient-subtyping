@@ -1,9 +1,16 @@
 # 06_posthoc_analysis/05_cluster_switchers.R
-# Re-runnable from a fresh R session.
+
+# This script compares the primary SNF cluster solution with each sensitivity
+# analysis to identify patients whose cluster assignment changes. Cluster labels
+# are aligned before identifying switchers, and agreement and overlap between
+# the primary and sensitivity solutions are summarised.
 #
-# - compare the primary integrated SNF cluster solution to each sensitivity branch
-# - identify patients whose assignments change after optimal label permutation
-# - summarise switch frequencies, overlaps, and agreement metrics
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The primary and sensitivity cluster solutions must already exist.
+#
+# Outputs are saved under `paths$posthoc/cluster_switchers/`, including
+# switcher tables, cluster-agreement summaries, overlap measures, and plots.
 
 
 # -----------------------------------------------------------------------------
