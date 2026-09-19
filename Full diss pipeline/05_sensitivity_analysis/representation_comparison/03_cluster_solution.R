@@ -1,15 +1,22 @@
 # =========================================================
 # 03_cluster_solution.R
-# Representation comparison branch clustering
-# Re-runnable from a fresh R session.
 #
-# Methodological notes:
-# - Reads the saved 2-network fused network produced by 02_run_2network_snf.R.
-# - Computes the eigengap summary here.
-# - Stores the eigengap summary, including the second-best k for reference.
-# - Produces cluster labels for the best k only.
-# - Does not change the fused network itself.
-# =========================================================
+# This script derives the cluster solution for the representation-comparison
+# sensitivity analysis from the fused two-network SNF matrix. It selects the
+# number of clusters using the eigengap and performs spectral clustering using
+# the selected k.
+#
+# Fixed settings:
+# - Eigengap scan considers the first 10 candidate cluster numbers.
+#
+# Before running:
+# - Set `project_root` to the local project directory.
+# - The fused two-network SNF result from `02_run_2network_snf.R` must already exist.
+#
+# Outputs are saved under
+# `05_sensitivity_analysis/outputs/representation_comparison/cluster_solution/`,
+# including the eigengap results, selected cluster solution, cluster sizes,
+# and run record.
 
 project_root <- "/home/ehogg/analysis/Baseline-Tracking-PD-Metabolite-Analysis-Natacha-/Full diss pipeline and outputs"
 source(file.path(project_root, "00_config", "config.R"))
