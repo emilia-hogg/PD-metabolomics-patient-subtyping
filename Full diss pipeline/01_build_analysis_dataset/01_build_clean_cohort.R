@@ -30,16 +30,11 @@ source(file.path(project_root, "00_config", "config.R"))
 source(file.path(project_root, "00_config", "packages.R"))
 
 # Check that the expected workspace file is available and load the metabolomics data.
-if (!file.exists(files$workspace_rdata)) {
-  stop("Missing workspace file: ", files$workspace_rdata)
+if (!file.exists(files$imputation_2_data)) {
+  stop("Missing imputation input file: ", files$imputation_2_data)
 }
 
-load(files$workspace_rdata)
-
-# The metabolomics input is expected to be stored as `imputation_2_data`.
-if (!exists("imputation_2_data")) {
-  stop("Object 'imputation_2_data' was not found in the loaded workspace.")
-}
+imputation_2_data <- readRDS(files$imputation_2_data)
 
 # Use clinical metadata from the loaded workspace when available; otherwise,
 # read it from the clinical RDS file specified in the configuration.
