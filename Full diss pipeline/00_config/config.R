@@ -24,7 +24,7 @@ paths <- list(
 )
 
 files <- list(
-  workspace_rdata = file.path(project_root, "restarted_pca_kmeans_working_session.RData"),
+  imputation_2_data = "/mnt/sdc/natacha/Data/imputation_2_data",
   clinical_rds = "/mnt/sde/buddhi/PROBAND_shared/Full_Patient_sample_information.rds",
   analysis_cohort = file.path(paths$analysis_dataset, "analysis_cohort.rds"),
   patient_metadata = file.path(paths$analysis_dataset, "patient_metadata.rds"),
